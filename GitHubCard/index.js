@@ -3,6 +3,8 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get("https://api.github.com/users/ccurry20");
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -45,6 +47,49 @@ const followersArray = [];
 </div>
 
 */
+
+class GitCards { 
+  constructor(gitDataArray) { 
+    const entry = document.querySelector('.cards');
+    gitDataArray.forEach((gitData) => {
+      entry.appendChild(this.cardCreator(gitData))
+    });
+  }
+}
+
+function cardCreator(user) {
+  const div = document.createElement('div');
+  div.classList.add('card');
+
+  const image = document.createElement('img');
+  image.src = user; 
+  div.appendChild(image);
+  //axios.get("https://avatars1.githubusercontent.com/u/19153270?v=4");
+
+  const div2 = document.createElement('div');
+  div2.classList.add('card-info');
+  image.appendChild('div2');
+
+  const h3 = document.createElement('h3');
+  h3.classList.add('name');
+  div2.appendChild('h3');
+
+  const p = document.createElement('p');
+  p.classList.add('username');
+
+  return div; 
+
+
+}
+
+axios.get('https://api.github.com/users/ccurry20')
+.then((axiosData) => {
+  console.log('axiosData.data: ', axiosData.data);
+  new GitCards(axiosData.data)
+})
+.catch((err) => {
+  console.log('error: ', err);
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
