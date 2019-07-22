@@ -3,7 +3,14 @@
            https://api.github.com/users/<your name>
 */
 
-axios.get("https://api.github.com/users/ccurry20");
+axios.get("https://api.github.com/users/ccurry20")
+  .then( data => {
+    console.log(data.data);
+  })
+  .catch (err => {
+    console.log(err.message);
+  })
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -48,48 +55,83 @@ const followersArray = [];
 
 */
 
-class GitCards { 
-  constructor(gitDataArray) { 
-    const entry = document.querySelector('.cards');
-    gitDataArray.forEach((gitData) => {
-      entry.appendChild(this.cardCreator(gitData))
-    });
-  }
-}
+// class GitCards { 
+//   constructor(gitDataArray) { 
+//     const entry = document.querySelector('.cards');
+//     gitDataArray.forEach((gitData) => {
+//       entry.appendChild(this.cardCreator(gitData))
+//     });
+//   }
+// }
 
 function cardCreator(user) {
   const div = document.createElement('div');
   div.classList.add('card');
 
   const image = document.createElement('img');
-  image.src = user; 
+  image.src = user.avatar_url; 
   div.appendChild(image);
-  //axios.get("https://avatars1.githubusercontent.com/u/19153270?v=4");
-
+  
   const div2 = document.createElement('div');
   div2.classList.add('card-info');
-  image.appendChild('div2');
+  div.appendChild(div2);
 
   const h3 = document.createElement('h3');
   h3.classList.add('name');
-  div2.appendChild('h3');
+  h3.textContent = user.name;
+  div.appendChild(h3);
 
   const p = document.createElement('p');
   p.classList.add('username');
+  p.textContent = user.login; 
+  div.appendChild(p);
 
-  return div; 
+  const p2 = document.createElement('p');
+  p2.textContent = user.location; 
+  div.appendChild(p2);
 
+  const p3 = document.createElement('p');
+  p3.textContent = user.url; 
+  div.appendChild(p3);
+
+  const p4 = document.createElement('p');
+  p4.textContent = user.followers; 
+  div.appendChild(p4);
+
+  const p5 = document.createElement('p');
+  p5.textContent = user.following; 
+  div.appendChild(p5);
+
+  const p6 = document.createElement('p');
+  p6.textContent = user.bio; 
+  div.appendChild(p6);
+
+
+
+  //let card = cardCreator(user);
+  let cards = document.querySelector(".cards");
+  cards.appendChild(div);
+  
+  return cards;
 
 }
+
 
 axios.get('https://api.github.com/users/ccurry20')
 .then((axiosData) => {
   console.log('axiosData.data: ', axiosData.data);
-  new GitCards(axiosData.data)
+  cardCreator(axiosData.data)
 })
 .catch((err) => {
   console.log('error: ', err);
-}
+})
+
+
+
+// let card = cardCreator();
+// let cards = document.querySelector(".cards");
+// cards.appendChild(card);
+
 
 /* List of LS Instructors Github username's: 
   tetondan
