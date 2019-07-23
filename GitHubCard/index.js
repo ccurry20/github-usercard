@@ -3,14 +3,14 @@
            https://api.github.com/users/<your name>
 */
 
-axios.get("https://api.github.com/users/ccurry20")
-  .then( data => {
+axios
+  .get("https://api.github.com/users/ccurry20")
+  .then(data => {
     console.log(data.data);
   })
-  .catch (err => {
+  .catch(err => {
     console.log(err.message);
-  })
-
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -33,7 +33,12 @@ axios.get("https://api.github.com/users/ccurry20")
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "ccurry20",
+  "tetondan"
+  // "https://api.github.com/users/ccurry20",
+  // "https://api.github.com/users/tetondan"
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -55,8 +60,8 @@ const followersArray = [];
 
 */
 
-// class GitCards { 
-//   constructor(gitDataArray) { 
+// class GitCards {
+//   constructor(gitDataArray) {
 //     const entry = document.querySelector('.cards');
 //     gitDataArray.forEach((gitData) => {
 //       entry.appendChild(this.cardCreator(gitData))
@@ -65,73 +70,77 @@ const followersArray = [];
 // }
 
 function cardCreator(user) {
-  const div = document.createElement('div');
-  div.classList.add('card');
+  const div = document.createElement("div");
+  div.classList.add("card");
 
-  const image = document.createElement('img');
-  image.src = user.avatar_url; 
+  const image = document.createElement("img");
+  image.src = user.avatar_url;
   div.appendChild(image);
-  
-  const div2 = document.createElement('div');
-  div2.classList.add('card-info');
+
+  const div2 = document.createElement("div");
+  div2.classList.add("card-info");
   div.appendChild(div2);
 
-  const h3 = document.createElement('h3');
-  h3.classList.add('name');
+  const h3 = document.createElement("h3");
+  h3.classList.add("name");
   h3.textContent = user.name;
   div.appendChild(h3);
 
-  const p = document.createElement('p');
-  p.classList.add('username');
-  p.textContent = user.login; 
-  div.appendChild(p);
+  const p = document.createElement("p");
+  p.classList.add("username");
+  p.textContent = user.login;
+  h3.appendChild(p);
 
-  const p2 = document.createElement('p');
-  p2.textContent = user.location; 
-  div.appendChild(p2);
+  const p2 = document.createElement("p");
+  p2.textContent = `Location: ${user.location}`;
+  p.appendChild(p2);
 
-  const p3 = document.createElement('p');
-  p3.textContent = user.url; 
-  div.appendChild(p3);
+  const p3 = document.createElement("p");
+  p3.textContent = `Profile: ${user.url}`;
+  p2.appendChild(p3);
 
-  const p4 = document.createElement('p');
-  p4.textContent = user.followers; 
-  div.appendChild(p4);
+  const p4 = document.createElement("p");
+  p4.textContent = `Followers: ${user.followers}`;
+  p3.appendChild(p4);
 
-  const p5 = document.createElement('p');
-  p5.textContent = user.following; 
-  div.appendChild(p5);
+  const p5 = document.createElement("p");
+  p5.textContent = `Following: ${user.following}`;
+  p4.appendChild(p5);
 
-  const p6 = document.createElement('p');
-  p6.textContent = user.bio; 
-  div.appendChild(p6);
-
-
+  const p6 = document.createElement("p");
+  p6.textContent = `Bio: ${user.bio}`;
+  p5.appendChild(p6);
 
   //let card = cardCreator(user);
   let cards = document.querySelector(".cards");
   cards.appendChild(div);
-  
-  return cards;
 
+  return cards;
 }
 
+axios
+  .get("https://api.github.com/users/ccurry20")
+  .then(axiosData => {
+    console.log("axiosData.data: ", axiosData.data);
+    cardCreator(axiosData.data);
+  })
+  .catch(err => {
+    console.log("error: ", err);
+  });
 
-axios.get('https://api.github.com/users/ccurry20')
-.then((axiosData) => {
-  console.log('axiosData.data: ', axiosData.data);
-  cardCreator(axiosData.data)
-})
-.catch((err) => {
-  console.log('error: ', err);
-})
+axios
+  .get("https://api.github.com/users/tetondan")
+  .then(axiosData => {
+    console.log("axiosData.data: ", axiosData.data);
+    cardCreator(axiosData.data);
+  })
+  .catch(err => {
+    console.log("error: ", err);
+  });
 
-
-
-// let card = cardCreator();
-// let cards = document.querySelector(".cards");
-// cards.appendChild(card);
-
+let card = cardCreator();
+let cards = document.querySelector(".cards");
+cards.appendChild(card);
 
 /* List of LS Instructors Github username's: 
   tetondan
